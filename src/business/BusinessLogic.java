@@ -32,6 +32,25 @@ public class BusinessLogic {
         }
     }
 
+    public static String getNewItemCode(){
+        String lastCustomerId = DataLayer.getLastCustomerId();
+        if (lastCustomerId == null){
+            return "I001";
+        }else{
+            int maxId=  Integer.parseInt(lastCustomerId.replace("I",""));
+            maxId = maxId + 1;
+            String id = "";
+            if (maxId < 10) {
+                id = "I00" + maxId;
+            } else if (maxId < 100) {
+                id = "I0" + maxId;
+            } else {
+                id = "I" + maxId;
+            }
+            return id;
+        }
+    }
+
     public static List<CustomerTM> getAllCustomers(){
         return DataLayer.getAllCustomers();
     }
