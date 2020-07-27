@@ -33,11 +33,11 @@ public class BusinessLogic {
     }
 
     public static String getNewItemCode(){
-        String lastCustomerId = DataLayer.getLastCustomerId();
-        if (lastCustomerId == null){
+        String lastItemCode = DataLayer.getLastItemCode();
+        if (lastItemCode == null){
             return "I001";
         }else{
-            int maxId=  Integer.parseInt(lastCustomerId.replace("I",""));
+            int maxId=  Integer.parseInt(lastItemCode.replace("I",""));
             maxId = maxId + 1;
             String id = "";
             if (maxId < 10) {
@@ -46,6 +46,25 @@ public class BusinessLogic {
                 id = "I0" + maxId;
             } else {
                 id = "I" + maxId;
+            }
+            return id;
+        }
+    }
+
+    public static String getNewOrderId(){
+        String lastOrderId = DataLayer.getLastOrderId();
+        if (lastOrderId == null){
+            return "OD001";
+        }else{
+            int maxId=  Integer.parseInt(lastOrderId.replace("OD",""));
+            maxId = maxId + 1;
+            String id = "";
+            if (maxId < 10) {
+                id = "OD00" + maxId;
+            } else if (maxId < 100) {
+                id = "OD0" + maxId;
+            } else {
+                id = "OD" + maxId;
             }
             return id;
         }
