@@ -103,7 +103,46 @@ public class BusinessLogic {
     }
 
     public static boolean placeOrder(OrderTM order, List<OrderDetailTM> orderDetails){
-        return DataLayer.placeOrder(order, orderDetails);
+        Connection connection = DBConnection.getInstance().getConnection();
+        try {
+            connection.setAutoCommit(false);
+
+            boolean result = DataLayer.saveOrder(order);
+            if (!result){
+                connection.rollback();
+                return false;
+            }
+
+            result = DataLayer.saveOrderDetail(order.getOrderId(),orderDetails);
+            if (!result){
+                connection.rollback();
+                return false;
+            }
+
+            result = DataLayer.updateQty(orderDetails);
+            if (!result){
+                connection.rollback();
+                return false;
+            }
+
+            connection.commit();
+            return true;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
     }
 
 
