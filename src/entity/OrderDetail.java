@@ -1,4 +1,58 @@
 package entity;
 
-public class OrderDetail {
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+public class OrderDetail implements Serializable {
+
+
+
+
+    private OrderDetailPK orderDetailPK;
+    private int qty;
+    private BigDecimal unitPrice;
+
+
+    public OrderDetail() {
+    }
+
+
+    public OrderDetail(OrderDetailPK orderDetailPK, int qty, BigDecimal unitPrice) {
+        this.qty = qty;
+        this.unitPrice = unitPrice;
+        this.orderDetailPK=orderDetailPK;
+    }
+
+    public OrderDetail(String orderId,String itemCode ,OrderDetailPK orderDetailPK, int qty, BigDecimal unitPrice) {
+        this.orderDetailPK = new OrderDetailPK(orderId, itemCode);
+        this.qty = qty;
+        this.unitPrice = unitPrice;
+
+    }
+
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public void setOrderDetailPK(OrderDetailPK orderDetailPK) {
+        this.orderDetailPK = orderDetailPK;
+    }
+    public OrderDetailPK getOrderDetailPK() {
+        return orderDetailPK;
+    }
+
+
 }

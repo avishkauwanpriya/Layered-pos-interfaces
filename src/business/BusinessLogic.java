@@ -1,7 +1,9 @@
 package business;
 
+import dao.CustomerDAO;
 import dao.DataLayer;
 import db.DBConnection;
+import entity.Customer;
 import util.CustomerTM;
 import util.ItemTM;
 import util.OrderDetailTM;
@@ -71,11 +73,18 @@ public class BusinessLogic {
     }
 
     public static List<CustomerTM> getAllCustomers(){
-        return DataLayer.getAllCustomers();
+
+        ArrayList<CustomerTM> allCustomerTMs = new ArrayList<>();
+        for (Customer customer:CustomerDAO.findAllCustomers()) {
+            allCustomerTMs.add(new CustomerTM(customer.getId(),customer.getName(),customer.getAddress()));
+
+
+        }
+        return allCustomerTMs;
     }
 
     public static boolean saveCustomer(String id, String name, String address){
-        return DataLayer.saveCustomer(new CustomerTM(id,name,address));
+        CustomerDAO.saveCustomer(new Customer(id,name,address));
     }
 
     public static boolean deleteCustomer(String customerId){
@@ -86,9 +95,10 @@ public class BusinessLogic {
         return DataLayer.updateCustomer(new CustomerTM(customerId, name, address));
     }
 
-    public static List<ItemTM> getAllItems(){
-        return DataLayer.getAllItems();
-    }
+ /*   public static List<ItemTM> getAllItems(){
+
+
+    }*/
 
     public static boolean saveItem(String code, String description, int qtyOnHand, double unitPrice){
         return DataLayer.saveItem(new ItemTM(code, description, qtyOnHand, unitPrice));
